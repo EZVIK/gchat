@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package gchat.api.gchat.v1;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+option go_package = "/gchat/api/gchat/v1;v1";
+option java_multiple_files = true;
+option java_package = "gchat.api.gchat.v1";
+
+
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+	info: {
+		title: "gchat";
+		version: "1.0";
+		contact: {
+			name: "gRPC-Gateway project";
+			url: "";
+			email: "none@example.com";
+		};
+		license: {
+			name: "BSD 3-Clause License";
+			url: "https://github.com/grpc-ecosystem/grpc-gateway/blob/master/LICENSE.txt";
+		};
+		extensions: {
+			key: "x-something-something";
+			value {
+				string_value: "yadda";
+			}
+		}
+	};
+};
+
+service Gchat {
+
+	rpc Login (LoginRequest) returns (LoginReply) {
+	  option (google.api.http) = {
+			post: "/v1/user/login"
+			body: "*"
+	  };
+
+		option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+			external_docs: {
+				url: "https://github.com/grpc-ecosystem/grpc-gateway";
+				description: "SayHello Query";
+			}
+		};
+	}
+  
+	rpc CreateChat(CreateChatRequest) returns (CreateChatReply) {
+		option (google.api.http) = {
+			post: "/v1/chat/create"
+			body: "*"
+		};
+	}
+  
+	rpc RemoveChat(RemoveChatRequest) returns (RemoveChatReply) {
+		option (google.api.http) = {
+			post: "/v1/chat/remove"
+			body: "*"
+		};
+	}
+
+	rpc JoinChat(JoinChatRequest) returns (JoinChatReply) {
+		option (google.api.http) = {
+			post: "/v1/chat/join"
+			body: "*"
+		};
+	}
+
+	rpc LeaveChat(LeaveChatRequest) returns (LeaveChatReply) {
+		option (google.api.http) = {
+			post: "/v1/chat/leave"
+			body: "*"
+		};
+	}
+  
+	rpc SendMsg(SendMsgRequest) returns (SendMsgReply) {
+		option (google.api.http) = {
+			post: "/v1/message/send"
+			body: "*"
+		};
+	}
+  
+	rpc ReceiveMsg(ReceiveMsgRequest) returns (ReceiveMsgReply) {
+		option (google.api.http) = {
+			post: "/v1/message/receive"
+			body: "*"
+		};
+	}
+}
+
+  message JoinChatRequest {
+		int64 chat_id = 1;
+		repeated int64 user_ids = 2;
+  }
+
+  message JoinChatReply {
+	
+  }
+
+  message LeaveChatRequest {
+		int64 chat_id = 1;
+		int64 user_id = 2;
+  }
+
+  message LeaveChatReply {
+
+  }
+
+  
+  message LoginRequest {
+		string username = 1;
+		string password = 2;
+  }
+  
+  message LoginReply {
+		int64 id = 1;
+		string username = 2;
+		string access_token = 3;
+  }
+  
+  message CreateChatRequest {
+	string name = 1;
+	int64  create_user_id = 2;
+  }
+  
+  message CreateChatReply {
+	int64 id = 1;
+  }
+  
+  message RemoveChatRequest {
+	int64 chat_id = 1;
+	repeated int64 user_ids = 2;
+  }
+  
+  message RemoveChatReply {
+	int64 id = 1;
+  }
+  
+  
+  message SendMsgRequest {
+	int64 user_id = 1;
+	int64 chat_id = 2;
+	string content = 3;
+  }
+  
+  message SendMsgReply {
+	int64 id = 1;
+  }
+  
+  message ReceiveMsgRequest {
+	int64 user_id = 1;
+	int64 chat_id = 2;
+  }
+  
+  message MessageObject {
+	int64 id = 1;
+	int64 user_id = 2;
+	int64 chat_id = 3;
+	string content = 4;
+	string create_time = 5;
+  }
+  
+  message ReceiveMsgs {
+	int64 ChatId = 1;
+	repeated MessageObject messages = 2;
+  }
+  
+  message ReceiveMsgReply {
+	repeated ReceiveMsgs data = 1;
+  }

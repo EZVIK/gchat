@@ -1,0 +1,337 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Gchat API
+    version: 0.0.1
+paths:
+    /v1/chat/create:
+        post:
+            tags:
+                - Gchat
+            operationId: Gchat_CreateChat
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateChatRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateChatReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/chat/join:
+        post:
+            tags:
+                - Gchat
+            operationId: Gchat_JoinChat
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/JoinChatRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/JoinChatReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/chat/leave:
+        post:
+            tags:
+                - Gchat
+            operationId: Gchat_LeaveChat
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LeaveChatRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LeaveChatReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/chat/remove:
+        post:
+            tags:
+                - Gchat
+            operationId: Gchat_RemoveChat
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RemoveChatRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RemoveChatReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/message/receive:
+        post:
+            tags:
+                - Gchat
+            operationId: Gchat_ReceiveMsg
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ReceiveMsgRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ReceiveMsgReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/message/send:
+        post:
+            tags:
+                - Gchat
+            operationId: Gchat_SendMsg
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SendMsgRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SendMsgReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/user/login:
+        post:
+            tags:
+                - Gchat
+            operationId: Gchat_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        CreateChatReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+        CreateChatRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                createUserId:
+                    type: integer
+                    format: int64
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        JoinChatReply:
+            type: object
+            properties: {}
+        JoinChatRequest:
+            type: object
+            properties:
+                chatId:
+                    type: integer
+                    format: int64
+                userIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: int64
+        LeaveChatReply:
+            type: object
+            properties: {}
+        LeaveChatRequest:
+            type: object
+            properties:
+                chatId:
+                    type: integer
+                    format: int64
+                userId:
+                    type: integer
+                    format: int64
+        LoginReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                username:
+                    type: string
+                accessToken:
+                    type: string
+        LoginRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+                password:
+                    type: string
+        MessageObject:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                userId:
+                    type: integer
+                    format: int64
+                chatId:
+                    type: integer
+                    format: int64
+                content:
+                    type: string
+                createTime:
+                    type: string
+        ReceiveMsgReply:
+            type: object
+            properties:
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ReceiveMsgs'
+        ReceiveMsgRequest:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    format: int64
+                chatId:
+                    type: integer
+                    format: int64
+        ReceiveMsgs:
+            type: object
+            properties:
+                ChatId:
+                    type: integer
+                    format: int64
+                messages:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/MessageObject'
+        RemoveChatReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+        RemoveChatRequest:
+            type: object
+            properties:
+                chatId:
+                    type: integer
+                    format: int64
+                userIds:
+                    type: array
+                    items:
+                        type: integer
+                        format: int64
+        SendMsgReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+        SendMsgRequest:
+            type: object
+            properties:
+                userId:
+                    type: integer
+                    format: int64
+                chatId:
+                    type: integer
+                    format: int64
+                content:
+                    type: string
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: Gchat

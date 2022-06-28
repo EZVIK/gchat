@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package gchat.v1;
+
+option go_package = "gchat/api/gchat/v1;v1";
+option java_multiple_files = true;
+option java_package = "gchat.v1";
+option objc_class_prefix = "APIgchatV1";
+
+enum ErrorReason {
+  USER_UNAUTHORIZED = 0;
+  USER_NOT_FOUND = 1;
+  USER_ALREADY_EXISTS = 2;
+  USER_INVALID_PASSWORD = 3;
+  USER_INVALID_EMAIL = 4;
+  USER_INVALID_TOKEN = 5;
+}
