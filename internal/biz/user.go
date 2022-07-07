@@ -2,10 +2,11 @@ package biz
 
 import (
 	"context"
-	"crypto/rsa"
-	"encoding/base64"
+	"encoding/json"
+	"fmt"
 	v1 "gchat/api/gchat/v1"
 	"gchat/internal/conf"
+	"gchat/pkg/util"
 	"github.com/golang-jwt/jwt/v4"
 	"strconv"
 	"time"
@@ -70,22 +71,25 @@ func NewUserUsecase(auth func(data *GenerateBasic, isGenRefresh bool) (string, s
 	return &UserUsecase{jwtGenerator: auth, repo: repo, log: log.NewHelper(logger)}
 }
 
-func NewJwtGenerator(auth *conf.Auth) func(data *GenerateBasic, isGenRefresh bool) (string, string, error) {
-	return func(data *GenerateBasic, isGenRefresh bool) (string, string, error) {
-		priKey, err := GetPrivateKey(auth.Key)
-		if err != nil {
-			return "", "", err
-		}
-		claims := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.RegisteredClaims{
+func NewAuthKeyTest(auth *conf.Auth) error {
+	fmt.Println("NewAuthKeyTest .......")
+	_, err := util.GetPrivateKey(auth.Key)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
-			Issuer:    "gchat",
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 2)),
-			Subject:   data.UserID,
-			Audience: jwt.ClaimStrings{
-				"client1",
-			},
+func NewJwtGenerator(auth *conf.Auth) func(data *GenerateBasic, isGenRefresh bool) (string, string, error) {
+
+	return func(data *GenerateBasic, isGenRefresh bool) (string, string, error) {
+		claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"user_id": data.UserID,
+			"exp":     json.Number(strconv.FormatInt(time.Now().Add(time.Hour*time.Duration(1)).Unix(), 10)),
+			"iat":     json.Number(strconv.FormatInt(time.Now().Unix(), 10)),
 		})
-		signedString, err := claims.SignedString(priKey)
+
+		signedString, err := claims.SignedString([]byte(auth.Key))
 		if err != nil {
 			return "", "", err
 		}
@@ -142,13 +146,4 @@ func (uc *UserUsecase) Login(ctx context.Context, u *LoginRequest) (ur *LoginRes
 		UserInfo:    *userInfo,
 		AccessToken: ac,
 	}, nil
-}
-
-func GetPrivateKey(key string) (*rsa.PrivateKey, error) {
-	decoded, err := base64.StdEncoding.DecodeString(key)
-	if err != nil {
-		return nil, err
-	}
-	priKey, err := jwt.ParseRSAPrivateKeyFromPEM(decoded)
-	return priKey, err
 }

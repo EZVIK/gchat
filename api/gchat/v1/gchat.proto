@@ -123,52 +123,52 @@ service Gchat {
   }
   
   message CreateChatRequest {
-	string name = 1;
-	int64  create_user_id = 2;
+		string name = 1;
+		int64  create_user_id = 2;
   }
   
   message CreateChatReply {
-	int64 id = 1;
+		int64 id = 1;
   }
   
   message RemoveChatRequest {
-	int64 chat_id = 1;
-	repeated int64 user_ids = 2;
+		int64 chat_id = 1;
+		repeated int64 user_ids = 2;
   }
   
   message RemoveChatReply {
-	int64 id = 1;
+		int64 id = 1;
   }
   
   
   message SendMsgRequest {
-	int64 user_id = 1;
-	int64 chat_id = 2;
-	string content = 3;
+		int64 user_id = 1;
+		int64 chat_id = 2;
+		string content = 3;
   }
   
   message SendMsgReply {
-	int64 id = 1;
+		int64 id = 1;
   }
   
   message ReceiveMsgRequest {
-	int64 user_id = 1;
-	int64 chat_id = 2;
+		int64 user_id = 1;
+		int64 chat_id = 2;
   }
   
   message MessageObject {
-	int64 id = 1;
-	int64 user_id = 2;
-	int64 chat_id = 3;
-	string content = 4;
-	string create_time = 5;
+		int64 id = 1;
+		int64 user_id = 2;
+		int64 chat_id = 3;
+		string content = 4;
+		string create_time = 5;
   }
   
   message ReceiveMsgs {
-	int64 ChatId = 1;
-	repeated MessageObject messages = 2;
+		int64 ChatId = 1;
+		repeated MessageObject messages = 2;
   }
   
   message ReceiveMsgReply {
-	repeated ReceiveMsgs data = 1;
+		repeated ReceiveMsgs data = 1;
   }
